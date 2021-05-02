@@ -213,7 +213,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         newRound()
     }
-
+    
     // MARK: - IB Actions
     
     @IBAction func newRoundStart(_ sender: Any) {
@@ -252,7 +252,7 @@ class ViewController: UIViewController {
             button.setTitleColor(.black, for: .normal)
         }
     }
-   
+    
     func updateState(){
         if currentGame.word == currentGame.gussedWord{
             totalWins += 1
