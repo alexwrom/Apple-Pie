@@ -22,6 +22,17 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="View3" translatesAutoresizingMaskIntoConstraints="NO" id="cli-u6-3UP">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="409"/>
                                     </imageView>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="GDv-e0-GHw">
+                                        <rect key="frame" x="0.0" y="409" width="414" height="0.0"/>
+                                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="25"/>
+                                        <state key="normal" title="Далее">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="newRoundStart:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Z9u-Ye-qUB"/>
+                                        </connections>
+                                    </button>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="wq0-6k-EpF">
                                         <rect key="frame" x="0.0" y="409" width="414" height="409"/>
                                         <subviews>
@@ -436,7 +447,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnNewRound" destination="GDv-e0-GHw" id="VCF-ex-b53"/>
                         <outlet property="image" destination="cli-u6-3UP" id="cB0-hp-iUo"/>
+                        <outlet property="keyBoard" destination="wq0-6k-EpF" id="fRG-gq-IxJ"/>
                         <outlet property="scoreLabel" destination="I8Z-JC-a7F" id="U7A-BT-aMs"/>
                         <outlet property="textLabel" destination="3Ig-2I-gOe" id="bKp-KO-aHR"/>
                         <outletCollection property="letteralsButtons" destination="cmP-9G-eze" collectionClass="NSMutableArray" id="7m1-EE-21M"/>

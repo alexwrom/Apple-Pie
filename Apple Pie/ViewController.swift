@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet var letteralsButtons: [UIButton]!
     @IBOutlet weak var textLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var btnNewRound: UIButton!
+    @IBOutlet weak var keyBoard: UIStackView!
     
     // MARK: - Properties
     var currentGame : Game!
@@ -214,23 +216,65 @@ class ViewController: UIViewController {
 
     // MARK: - IB Actions
     
+    @IBAction func newRoundStart(_ sender: Any) {
+        newRound()
+        keyBoard.isHidden = false
+        btnNewRound.isHidden = true
+    }
+    
     @IBAction func clickButton(_ sender: UIButton) {
         sender.isEnabled = false
         let letter = sender.title(for: .normal)!
+        let oldIncorrectAllowed = currentGame.incorrectMoves
         currentGame.playerGussed(letter: Character(letter))
-        updateUI()
-        
+        sender.setTitleColor(oldIncorrectAllowed == currentGame.incorrectMoves ? .green : .red, for: .normal)
+        updateState()
+    }
+    
+    func updateWordLabel(){
+        var tempWord : [String] = []
+        for letter in currentGame.gussedWord{
+            tempWord.append(String(letter))
+        }
+        textLabel.text = tempWord.joined(separator: " ")
     }
     
     func newRound(){
-        let newWord = statesCapital.removeFirst()
+        let newWord = statesCapital.remove(at: Int.random(in: 0...statesCapital.count))
         currentGame = Game(word: newWord, incorrectMoves: incorrectAllowed)
+        buttonsEnable()
         updateUI()
     }
     
+    func buttonsEnable(){
+        for button in letteralsButtons{
+            button.isEnabled = true
+            button.setTitleColor(.black, for: .normal)
+        }
+    }
+   
+    func updateState(){
+        if currentGame.word == currentGame.gussedWord{
+            totalWins += 1
+            btnNewRound.setTitle("Вы угадали столицу \"\(currentGame.gussedWord)\". Далее", for: .normal)
+            btnNewRound.isHidden = false
+        } else {
+            if currentGame.incorrectMoves < 1{
+                totalLosses += 1
+                updateUI()
+                btnNewRound.setTitle("Вы не угадали столицу \"\(currentGame.word)\". Далее", for: .normal)
+                btnNewRound.isHidden = false
+            } else {
+                updateUI()
+            }
+        }
+        keyBoard.isHidden = !btnNewRound.isHidden
+    }
+    
     func updateUI(){
-        let fileName = "View\(8 - currentGame.incorrectMoves)"
+        let fileName = "View\(currentGame.incorrectMoves < 0 ? 0 : 7 - currentGame.incorrectMoves)"
         image.image = UIImage(named: fileName)
+        updateWordLabel()
         scoreLabel.text = "Score:Wins - \(totalWins), Losses - \(totalLosses)"
     }
     
