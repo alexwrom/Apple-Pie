@@ -29,9 +29,5 @@ struct Game {
         if !word.uppercased().contains(upperLetter) {
             incorrectMoves -= 1
         }
-        
-       // if incorrectMoves == 0 {
-       //     incorrectMoves = 7
-        //}
     }
 }
