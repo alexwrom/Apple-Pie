@@ -134,7 +134,6 @@ class ViewController: UIViewController {
         "Мапуту",
         "Найпьидо",
         "Виндхук",
-        "официальной столицы не имеет",
         "Катманду",
         "Амстердам",
         "Веллингтон",
@@ -204,7 +203,7 @@ class ViewController: UIViewController {
         "Ханой",
         "Сана",
         "Лусака",
-        "Хараре",
+        "Хараре"
     ]
     var totalWins = 0
     var totalLosses = 0
@@ -212,6 +211,53 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         newRound()
+    }
+    
+    func updateWordLabel() {
+        var tempWord : [String] = []
+        for letter in currentGame.gussedWord{
+            tempWord.append(String(letter))
+        }
+        textLabel.text = tempWord.joined(separator: " ")
+    }
+    
+    func newRound() {
+        let newWord = statesCapital[Int.random(in: 0...statesCapital.count - 1)]
+        currentGame = Game(word: newWord, incorrectMoves: incorrectAllowed)
+        buttonsEnable()
+        updateUI()
+    }
+    
+    func buttonsEnable() {
+        for button in letteralsButtons{
+            button.isEnabled = true
+            button.setTitleColor(.black, for: .normal)
+        }
+    }
+    
+    func updateState() {
+        if currentGame.word == currentGame.gussedWord{
+            totalWins += 1
+            btnNewRound.setTitle("Вы угадали столицу \"\(currentGame.gussedWord)\". Далее", for: .normal)
+            btnNewRound.isHidden = false
+        } else {
+            if currentGame.incorrectMoves < 1{
+                totalLosses += 1
+                updateUI()
+                btnNewRound.setTitle("Вы не угадали столицу \"\(currentGame.word)\". Далее", for: .normal)
+                btnNewRound.isHidden = false
+            } else {
+                updateUI()
+            }
+        }
+        keyBoard.isHidden = !btnNewRound.isHidden
+    }
+    
+    func updateUI() {
+        let fileName = "View\(currentGame.incorrectMoves < 0 ? 0 : 7 - currentGame.incorrectMoves)"
+        image.image = UIImage(named: fileName)
+        updateWordLabel()
+        scoreLabel.text = "Score:Wins - \(totalWins), Losses - \(totalLosses)"
     }
     
     // MARK: - IB Actions
@@ -230,53 +276,5 @@ class ViewController: UIViewController {
         sender.setTitleColor(oldIncorrectAllowed == currentGame.incorrectMoves ? .green : .red, for: .normal)
         updateState()
     }
-    
-    func updateWordLabel(){
-        var tempWord : [String] = []
-        for letter in currentGame.gussedWord{
-            tempWord.append(String(letter))
-        }
-        textLabel.text = tempWord.joined(separator: " ")
-    }
-    
-    func newRound(){
-        let newWord = statesCapital.remove(at: Int.random(in: 0...statesCapital.count))
-        currentGame = Game(word: newWord, incorrectMoves: incorrectAllowed)
-        buttonsEnable()
-        updateUI()
-    }
-    
-    func buttonsEnable(){
-        for button in letteralsButtons{
-            button.isEnabled = true
-            button.setTitleColor(.black, for: .normal)
-        }
-    }
-    
-    func updateState(){
-        if currentGame.word == currentGame.gussedWord{
-            totalWins += 1
-            btnNewRound.setTitle("Вы угадали столицу \"\(currentGame.gussedWord)\". Далее", for: .normal)
-            btnNewRound.isHidden = false
-        } else {
-            if currentGame.incorrectMoves < 1{
-                totalLosses += 1
-                updateUI()
-                btnNewRound.setTitle("Вы не угадали столицу \"\(currentGame.word)\". Далее", for: .normal)
-                btnNewRound.isHidden = false
-            } else {
-                updateUI()
-            }
-        }
-        keyBoard.isHidden = !btnNewRound.isHidden
-    }
-    
-    func updateUI(){
-        let fileName = "View\(currentGame.incorrectMoves < 0 ? 0 : 7 - currentGame.incorrectMoves)"
-        image.image = UIImage(named: fileName)
-        updateWordLabel()
-        scoreLabel.text = "Score:Wins - \(totalWins), Losses - \(totalLosses)"
-    }
-    
 }
 

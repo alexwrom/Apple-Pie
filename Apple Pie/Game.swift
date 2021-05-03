@@ -18,7 +18,7 @@ struct Game {
     var gussedWord: String{
         var tempWord = ""
         for letter in word{
-            tempWord += String(gussedLetters.contains(Character(letter.uppercased())) || letter == "-" ?  letter : "_")
+            tempWord += String(gussedLetters.contains(Character(letter.uppercased())) || letter == "-" || letter == " " ?  letter : "_")
         }
         return tempWord
     }
