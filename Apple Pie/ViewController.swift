@@ -18,9 +18,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var keyBoard: UIStackView!
     
     // MARK: - Properties
-    var currentGame : Game!
-    let incorrectAllowed = 7
-    var statesCapital = [
+    private var currentGame : Game!
+    private let incorrectAllowed = 7
+    private var statesCapital = [
         "Вена",
         "Баку",
         "Нассау",
@@ -205,15 +205,15 @@ class ViewController: UIViewController {
         "Лусака",
         "Хараре"
     ]
-    var totalWins = 0
-    var totalLosses = 0
+    private var totalWins = 0
+    private var totalLosses = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         newRound()
     }
     
-    func updateWordLabel() {
+    private func updateWordLabel() {
         var tempWord : [String] = []
         for letter in currentGame.gussedWord{
             tempWord.append(String(letter))
@@ -221,21 +221,21 @@ class ViewController: UIViewController {
         textLabel.text = tempWord.joined(separator: " ")
     }
     
-    func newRound() {
+    private func newRound() {
         let newWord = statesCapital[Int.random(in: 0...statesCapital.count - 1)]
         currentGame = Game(word: newWord, incorrectMoves: incorrectAllowed)
         buttonsEnable()
         updateUI()
     }
     
-    func buttonsEnable() {
+    private func buttonsEnable() {
         for button in letteralsButtons{
             button.isEnabled = true
             button.setTitleColor(.black, for: .normal)
         }
     }
     
-    func updateState() {
+    private func updateState() {
         if currentGame.word == currentGame.gussedWord{
             totalWins += 1
             btnNewRound.setTitle("Вы угадали столицу \"\(currentGame.gussedWord)\". Далее", for: .normal)
@@ -253,7 +253,7 @@ class ViewController: UIViewController {
         keyBoard.isHidden = !btnNewRound.isHidden
     }
     
-    func updateUI() {
+    private func updateUI() {
         let fileName = "View\(currentGame.incorrectMoves < 0 ? 0 : 7 - currentGame.incorrectMoves)"
         image.image = UIImage(named: fileName)
         updateWordLabel()
@@ -262,13 +262,13 @@ class ViewController: UIViewController {
     
     // MARK: - IB Actions
     
-    @IBAction func newRoundStart(_ sender: Any) {
+    @IBAction private func newRoundStart(_ sender: Any) {
         newRound()
         keyBoard.isHidden = false
         btnNewRound.isHidden = true
     }
     
-    @IBAction func clickButton(_ sender: UIButton) {
+    @IBAction private func clickButton(_ sender: UIButton) {
         sender.isEnabled = false
         let letter = sender.title(for: .normal)!
         let oldIncorrectAllowed = currentGame.incorrectMoves

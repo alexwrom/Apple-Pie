@@ -15,7 +15,7 @@ struct Game {
         self.incorrectMoves = incorrectMoves
     }
     
-    var gussedWord: String{
+    var gussedWord: String {
         var tempWord = ""
         for letter in word{
             tempWord += String(gussedLetters.contains(Character(letter.uppercased())) || letter == "-" || letter == " " ?  letter : "_")
@@ -23,7 +23,7 @@ struct Game {
         return tempWord
     }
     
-    mutating func playerGussed(letter: Character){
+    mutating func playerGussed(letter: Character) {
         let upperLetter = Character(letter.uppercased())
         gussedLetters.append(upperLetter)
         if !word.uppercased().contains(upperLetter) {
